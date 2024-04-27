@@ -1,24 +1,34 @@
 // create a touchable opacity button for each category
 
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Pressable, Text, StyleSheet } from 'react-native';
 
-export default function CategoryButton({ category, onPress }) {
+export default function CategoryButton({ category, onPress, categoryName }) {
+    const handlePress = () => {
+        onPress(categoryName); // Pass the categoryName to the onPress function
+    };
+
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <Pressable style={styles.button} onPress={handlePress}>
             <Text style={styles.text}>{category}</Text>
-        </TouchableOpacity>
+        </Pressable>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: 'pink',
+        backgroundColor: '#D9C39A',
         padding: 10,
         margin: 5,
         borderRadius: 5,
+        marginTop: 10,
+        borderColor: 'black',
+        borderWidth: 1,
+        alignItems: 'center',
+        width: 350,
     },
     text: {
-        fontSize: 16,
+        fontSize: 20,
+        fontWeight: 'bold',
     },
 });
