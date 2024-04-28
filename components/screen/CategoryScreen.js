@@ -9,37 +9,48 @@ import ProductList from './ProductListScreen';
 
 export default function CategoryScreen( { navigation }) {
     const [categories, setCategories] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+
+    // Simulate a loading screen
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
-
     async function fetchCategories(category) {
         try {
+            //Fetch the categories from the API
             const response = await fetch(`https://fakestoreapi.com/products/categories`);
             const products = await response.json();
+            //Process the categories
             const result = products.map(product => {
-
-                const id = product.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, (char) => char.toUpperCase()).replace(/\s/g, "");
+                //Tranform the category name
+                const id = product.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, 
+                (char) => char.toUpperCase()).replace(/\s/g, "");
+                //Capitalize the first letter of each word
                 const title = product.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+                //Return the transformed category
                 return { id, title};
                 
                 });
-
-              setCategories(result);
+            //Set the categories state
+            setCategories(result);
         } catch (error) {
             console.error(error);
         }
-
     }
+    //Call the fetchCategories function
     fetchCategories();
-    }, 
-    []
-    
-    );
+    }, []);
 
     return (             
             <View style={styles.container}>
                 {/* <Text style={styles.title}>Categories</Text> */}
-                {categories.length === 0 ? (
+                {isLoading ? (
                     <ActivityIndicator size="large" color="#592B1B" />
                 ) : (
                 <ScrollView>

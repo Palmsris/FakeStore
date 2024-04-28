@@ -1,10 +1,9 @@
-// create a touchable opacity button for each list
-
 import React from 'react';
 import { Pressable, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
-import { FlatList, Image, View } from 'react-native';
+import { Image, View } from 'react-native';
 import ProductDetailScreen from './ProductDetailScreen';
+import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function ProductList({ navigation, route, onPress }) {
@@ -13,6 +12,16 @@ export default function ProductList({ navigation, route, onPress }) {
 
     // Use state to store the filtered products
     const [products, setProducts] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+
+    // Simulate a loading screen
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // Fetch products based on the selected category
     useEffect(() => {
@@ -22,7 +31,8 @@ export default function ProductList({ navigation, route, onPress }) {
                 const products = await response.json();
                 
                 products.forEach(product => {
-                    product.category = product.category.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, (char) => char.toUpperCase()).replace(/\s/g, "");
+                    product.category = product.category.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, 
+                    (char) => char.toUpperCase()).replace(/\s/g, "");
                 });
 
                 setProducts(products);
@@ -31,38 +41,65 @@ export default function ProductList({ navigation, route, onPress }) {
             }
         }
         fetchProducts();
-    }, [categoryName]); // Trigger fetchProducts whenever the category changes
+    }, [categoryName]);
 
     const filteredProducts = products.filter((product) => product.category === categoryName);
 
     return (
         <View style={styles.container}>
-            {products.length === 0 ? (
+            {isLoading ? (
                 <ActivityIndicator size="large" color="#592B1B" />
             ) : (
-            <ScrollView>
-                {filteredProducts.map((item) => (
-                    <Pressable 
-                        key={item.id.toString()}
-                        style={styles.button} 
-                        onPress={() => navigation.navigate('ProductDetail', { product: item })}>
-
-                            <View style={styles.itemContainer}>
-                                {item.image && <Image source={{ uri: item.image }} style={styles.image} />}
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.title}>{item.title}</Text>
-                                    <Text style={styles.price}>Price: ${item.price}</Text>
-                                </View>
+                <>
+                    <ScrollView>
+                        {filteredProducts.map((item) => (
+                            <Pressable 
+                                key={item.id.toString()}
+                                style={styles.button} 
+                                onPress={() => navigation.navigate('ProductDetail', { product: item })}>
+                                    
+                                    <View style={styles.itemContainer}>
+                                        {item.image && <Image source={{ uri: item.image }} style={styles.image} />}
+                                        <View style={styles.textContainer}>
+                                            <Text style={styles.title}>{item.title}</Text>
+                                            <Text style={styles.price}>Price: ${item.price}</Text>
+                                        </View>
+                                    </View>
+                            </Pressable>
+                        ))}
+                    </ScrollView>
+                    <View style={styles.ControlButton}>
+                        <Pressable 
+                            onPress={() => navigation.navigate('Categories')}
+                            style={styles.button}
+                        >
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <FontAwesome name="arrow-left" size={24} color="black" />
+                                <Text style={styles.buttonText}>Back</Text>
                             </View>
-                    </Pressable>
-                ))}
-            </ScrollView>
+                        </Pressable>    
+                    </View>
+                </>
             )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    ScreenContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#D9C39A',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 5,
+        width: 370,
+        padding: 5,
+    },
+    ScreenText: {
+        fontSize: 17,
+        fontWeight: 'bold',
+    },
     container: {
         flex: 1,
         backgroundColor: '#F2DCC9',
@@ -104,6 +141,17 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 16,
+        fontWeight: 'bold',
+    },
+    ControlButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 7,
+        justifyContent: 'center',
+    },
+    buttonText: {
+        fontSize: 16,
+        marginLeft: 5,
         fontWeight: 'bold',
     },
 });

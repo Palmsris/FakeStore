@@ -13,7 +13,7 @@ export default function ProductDetailScreen({ route, navigation }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000);
+        }, 500);
 
         return () => clearTimeout(timer);
     }, []);
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     },
     ScreenContainer: {
         alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#D9C39A',
         borderColor: 'black',
         borderWidth: 1,
@@ -151,4 +152,5 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
 });
+
 
