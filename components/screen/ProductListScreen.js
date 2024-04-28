@@ -33,6 +33,8 @@ export default function ProductList({ navigation, route, onPress }) {
                 products.forEach(product => {
                     product.category = product.category.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, 
                     (char) => char.toUpperCase()).replace(/\s/g, "");
+                    product.categoryName = product.category.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+                    console.log('Category name:', product.categoryName);
                 });
 
                 setProducts(products);
@@ -44,6 +46,7 @@ export default function ProductList({ navigation, route, onPress }) {
     }, [categoryName]);
 
     const filteredProducts = products.filter((product) => product.category === categoryName);
+    
 
     return (
         <View style={styles.container}>
@@ -52,6 +55,9 @@ export default function ProductList({ navigation, route, onPress }) {
             ) : (
                 <>
                     <ScrollView>
+                        <View style={styles.ScreenContainer}>
+                            <Text style={styles.ScreenText}>{categoryName.toUpperCase()}</Text>
+                        </View>
                         {filteredProducts.map((item) => (
                             <Pressable 
                                 key={item.id.toString()}
@@ -95,6 +101,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: 370,
         padding: 5,
+        marginBottom: 10,
     },
     ScreenText: {
         fontSize: 17,

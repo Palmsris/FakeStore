@@ -35,7 +35,6 @@ export default function CategoryScreen( { navigation }) {
                 const title = product.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
                 //Return the transformed category
                 return { id, title};
-                
                 });
             //Set the categories state
             setCategories(result);

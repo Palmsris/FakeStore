@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: 'black',
         borderWidth: 1,
-        marginTop: 10,
+        marginTop: 5,
     },
     rateContainer: {
         flexDirection: 'row',
