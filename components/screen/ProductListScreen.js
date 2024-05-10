@@ -34,7 +34,6 @@ export default function ProductList({ navigation, route, onPress }) {
                     product.category = product.category.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, 
                     (char) => char.toUpperCase()).replace(/\s/g, "");
                     product.categoryName = product.category.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-                    console.log('Category name:', product.categoryName);
                 });
 
                 setProducts(products);
