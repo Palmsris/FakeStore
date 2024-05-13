@@ -1,14 +1,21 @@
-import { Pressable, Text, StyleSheet, View, Image, ActivityIndicator } from 'react-native';
+import { Pressable, Text, StyleSheet, View, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { addToCart } from '../slice/cartSlice';
+import { useDispatch } from 'react-redux';
 
-export default function ProductDetailScreen({ route, navigation }) {
+function ProductDetailScreen({ route, navigation }) {
 
     const { product } = route.params;
     const [isLoading, setLoading] = useState(true);
-    //console.log('Product:', product);
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        dispatch(addToCart(product));
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -29,30 +36,29 @@ export default function ProductDetailScreen({ route, navigation }) {
                 </View>
                 <View style={styles.container}>
                     <Image source={{ uri: product.image }} style={[styles.image]} />
-                    {/* )} */}
                     <Text style={styles.TitleText}>{product.title}</Text>
                     <View style={styles.rateContainer}>
                         <Text style={styles.rateText}>Rate: {product.rating.rate}   Sold: {product.rating.count}   Price: ${product.price}</Text>
                     </View>
                     <View style={styles.ControlButton}>
-                        <Pressable 
-                            onPress={() => navigation.navigate('Products', { categoryName: product.category})}
+                        <TouchableOpacity 
+                            onPress={() => navigation.goBack()}
                             style={[styles.button]}
                         >
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <FontAwesome name="arrow-left" size={24} color="black" />
                                 <Text style={styles.buttonText}>Back</Text>
                             </View>
-                        </Pressable>
-                        <Pressable 
-                            // onPress={() => { /* handle add to cart button press */ }}
+                        </TouchableOpacity>
+                            
+                            
+                            <TouchableOpacity 
+                            onPress={handleAddToCart}   
                             style={[styles.button]}
-                        >
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            >
                                 <FontAwesome name="shopping-cart" size={24} color="black" />
                                 <Text style={styles.buttonText}>Add to Cart</Text>
-                            </View>
-                        </Pressable>
+                            </TouchableOpacity>
                     </View>
                     <Text style={styles.descriptionText}>Description:</Text>
                     <View style={styles.descriptionContainer}>
@@ -64,6 +70,17 @@ export default function ProductDetailScreen({ route, navigation }) {
     </View>
     );
 }   
+
+const mapStateToProps = (state) => ({
+    products: state.products,
+});
+
+const mapDispatchToProps = {
+    addToCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetailScreen);
+
 
 const styles = StyleSheet.create({
     container: {

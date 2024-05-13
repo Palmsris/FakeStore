@@ -5,16 +5,20 @@ import { Image, View } from 'react-native';
 import ProductDetailScreen from './ProductDetailScreen';
 import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
+import { fetchProducts } from '../slice/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function ProductList({ navigation, route, onPress }) {
-    // Extract the category from the route parameters
-    const { categoryName } = route.params;
+    const { categoryName,categoryTitle } = route.params;
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.product.products);
+    
+    useEffect(() => {
+        dispatch(fetchProducts()); 
+    }, [dispatch]);
 
-    // Use state to store the filtered products
-    const [products, setProducts] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
-    // Simulate a loading screen
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
@@ -23,30 +27,12 @@ export default function ProductList({ navigation, route, onPress }) {
         return () => clearTimeout(timer);
     }, []);
 
-    // Fetch products based on the selected category
-    useEffect(() => {
-        async function fetchProducts() {
-            try {
-                const response = await fetch(`https://fakestoreapi.com/products`);
-                const products = await response.json();
-                
-                products.forEach(product => {
-                    product.category = product.category.toLowerCase().replace(/[']/g, "").replace(/(?<=\s+)[a-z]/gi, 
-                    (char) => char.toUpperCase()).replace(/\s/g, "");
-                    product.categoryName = product.category.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-                });
-
-                setProducts(products);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchProducts();
-    }, [categoryName]);
-
-    const filteredProducts = products.filter((product) => product.category === categoryName);
+    const filteredProducts = products.filter((product) => product.category.replace(/[']/g, "")
+    .replace(/(?<=\s+)[a-z]/gi, (char) => char
+    .toUpperCase())
+    .replace(/\s/g, "")
+    .toLowerCase() === categoryName);
     
-
     return (
         <View style={styles.container}>
             {isLoading ? (
@@ -55,14 +41,13 @@ export default function ProductList({ navigation, route, onPress }) {
                 <>
                     <ScrollView>
                         <View style={styles.ScreenContainer}>
-                            <Text style={styles.ScreenText}>{categoryName.toUpperCase()}</Text>
+                            <Text style={styles.ScreenText}>{categoryTitle.toUpperCase()}</Text>
                         </View>
                         {filteredProducts.map((item) => (
                             <Pressable 
                                 key={item.id.toString()}
                                 style={styles.button} 
                                 onPress={() => navigation.navigate('ProductDetail', { product: item })}>
-                                    
                                     <View style={styles.itemContainer}>
                                         {item.image && <Image source={{ uri: item.image }} style={styles.image} />}
                                         <View style={styles.textContainer}>
