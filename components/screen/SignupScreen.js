@@ -1,4 +1,3 @@
-// SignupScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -24,7 +23,7 @@ const SignupScreen = ({ navigation }) => {
     const data = signup(user);
     Alert.alert("User created successfully");
     navigation.navigate("SigninScreen");
-    console.log("Data:", data);
+    // console.log("Data:", data);
   };
 
   const handleClear = () => {

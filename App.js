@@ -37,7 +37,6 @@ function HomeScreen() {
       <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
       <Stack.Screen name="UpdateScreen" component={UpdateScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
-      {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
       <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
     </Stack.Navigator>
   );
@@ -85,7 +84,6 @@ function MyTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Cart" component={CartScreen} />
       <Tab.Screen name="My Orders" component={OrdersScreen} />
-      {/* <Tab.Screen name="User Profile" component={UserProfileStack} /> */}
       {token ? (
         <Tab.Screen name="User Profile" component={ProfileScreen} />
       ) : (

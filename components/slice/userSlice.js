@@ -1,7 +1,5 @@
-// userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Define the initial state
 const initialState = {
   user: null,
   name: null,
@@ -10,7 +8,6 @@ const initialState = {
   token: null,
 };
 
-// Create the user slice
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -26,7 +23,6 @@ const userSlice = createSlice({
       state.token = null;
     },
     updateUser(state, action) {
-      console.log("UpdateUser:", action.payload);
       state.name = action.payload.name;
     },
   },

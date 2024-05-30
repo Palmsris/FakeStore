@@ -25,7 +25,7 @@ export const checkOut = async ({ token, cartItems }) => {
     // console.log("Response:", response);
     return await response.json();
   } catch (error) {
-    console.log("Failed to save order:", error);
+    // console.log("Failed to save order:", error);
     throw error;
     return await response.json();
   }
@@ -43,21 +43,21 @@ export const getOrders = async (token) => {
     });
     return await response.json();
   } catch (error) {
-    console.log("Failed to get orders:", error);
+    // console.log("Failed to get orders:", error);
   }
 };
 
 export const updateOrder = async (orderID, isPaid, isDelivered, token) => {
-  console.log(
-    "OrderID:",
-    orderID,
-    "isPaid:",
-    isPaid,
-    "isDelivered:",
-    isDelivered,
-    "token:",
-    token
-  );
+  // console.log(
+  //   "OrderID:",
+  //   orderID,
+  //   "isPaid:",
+  //   isPaid,
+  //   "isDelivered:",
+  //   isDelivered,
+  //   "token:",
+  //   token
+  // );
   try {
     const response = await fetch("http://127.0.0.1:3000/orders/updateorder", {
       method: "POST",
@@ -70,6 +70,6 @@ export const updateOrder = async (orderID, isPaid, isDelivered, token) => {
     });
     return await response.json();
   } catch (error) {
-    console.log("Failed to update order:", error);
+    // console.log("Failed to update order:", error);
   }
 };

@@ -16,7 +16,6 @@ export default function ProductList({ navigation, route, onPress }) {
   const { categoryName, categoryTitle } = route.params;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
-  console.log("products", products);
 
   useEffect(() => {
     dispatch(fetchProducts());

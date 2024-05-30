@@ -11,12 +11,12 @@ export const getCart = async (token) => {
     });
     return await res.json();
   } catch (error) {
-    console.log("Failed to fetch cart from api:", error);
+    // console.log("Failed to fetch cart from api:", error);
   }
 };
 
 export const saveCart = async (token, cart) => {
-  console.log("Saving cart:", cart);
+  // console.log("Saving cart:", cart);
   try {
     const response = await fetch("http://127.0.0.1:3000/cart", {
       method: "PUT",
@@ -29,6 +29,6 @@ export const saveCart = async (token, cart) => {
     });
     return await response.json();
   } catch (error) {
-    console.log("Failed to save cart:", error);
+    // console.log("Failed to save cart:", error);
   }
 };

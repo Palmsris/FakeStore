@@ -47,13 +47,6 @@ const OrdersScreen = ({ navigation }) => {
     }
   }, [isFocused, forceRefresh]);
 
-  // useEffect(() => {
-  //   if (token) {
-  //     const order = getOrders(token);
-  //     if (order && order.status === "OK") dispatch(fetchOrders(order));
-  //   }
-  // }, [token, forceRefresh, isFocused, orders]);
-
   const [expandedSections, setExpandedSections] = useState([
     false,
     false,
@@ -91,7 +84,6 @@ const OrdersScreen = ({ navigation }) => {
   const handlePay = async (orderID, isPay, isDeliver, token) => {
     const payAction = await updateOrder(orderID, isPay, isDeliver, token);
     if (payAction && payAction.status === "OK") {
-      console.log("Order paid");
       setForceRefresh((prev) => !prev);
     }
   };

@@ -17,7 +17,6 @@ export default function CategoryScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
-  console.log(categories);
 
   useEffect(() => {
     dispatch(fetchCategories());

@@ -1,5 +1,3 @@
-// create a touchable opacity button for each category
-
 import React from "react";
 import { Pressable, Text, StyleSheet } from "react-native";
 

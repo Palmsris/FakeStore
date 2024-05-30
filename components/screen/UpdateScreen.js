@@ -20,7 +20,7 @@ const UpdateScreen = ({ navigation }) => {
   const handleUpdate = async () => {
     const user = { name, password, token };
     const data = await update(user);
-    console.log("UpdateData:", data);
+    // console.log("UpdateData:", data);
     if (data.status === "OK") {
       navigation.goBack();
     }

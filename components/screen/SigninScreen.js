@@ -40,7 +40,7 @@ const SigninScreen = ({ navigation }) => {
 
   const restoreCart = async (token) => {
     const cart = await getCart(token);
-    console.log(cart.items, "at restoreCart");
+    // console.log(cart.items, "at restoreCart");
 
     dispatch(fillCart(cart.items));
     const orders = await getOrders(token);

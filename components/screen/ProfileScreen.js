@@ -31,7 +31,6 @@ const ProfileScreen = ({ navigation }) => {
   const handleUpdate = async () => {
     const user = { name: newName, password, token };
     const data = await update(user);
-    console.log("UpdateData:", data);
     if (data.status === "OK") {
       setModalVisible(false);
       dispatch(updateUser(data));
