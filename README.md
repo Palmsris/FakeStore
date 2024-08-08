@@ -1,4 +1,5 @@
 Project Description:
+
 The "Fake Store" mobile application is designed to simulate a shopping experience by interacting with the Fake Store API. This app allows users to browse products, manage their shopping cart, and process orders.
 
 Objective:
